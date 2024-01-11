@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { CreateReleaseDto } from './dto/create-release.dto';
 
 @Controller('releases')
 export class ReleasesController {
@@ -11,6 +12,13 @@ export class ReleasesController {
   getOneRelease(@Param('id') id: string) {
     return {
       id,
+    };
+  }
+
+  @Post()
+  createRelease(@Body() createReleaseDto: CreateReleaseDto) {
+    return {
+      name: createReleaseDto.name,
     };
   }
 }

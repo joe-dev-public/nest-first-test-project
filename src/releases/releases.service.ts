@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CreateReleaseDto } from './dto/create-release.dto';
 
 @Injectable()
 export class ReleasesService {
@@ -28,5 +29,23 @@ export class ReleasesService {
     }
 
     return release;
+  }
+
+  // I think number type is OK here because JSON request body can actually
+  // differentiate between a few types? More or less.
+  createRelease(createReleaseDto: CreateReleaseDto) {
+    if (!createReleaseDto.name) {
+      throw new Error('no name supplied');
+    }
+    if (!createReleaseDto.year) {
+      throw new Error('no year supplied');
+    }
+
+    const nextId: number = this.releases[this.releases.length - 1].id + 1;
+
+    // Placeholder data store update ("volatile")
+    this.releases.push({ id: nextId, ...createReleaseDto });
+
+    return this.releases[this.releases.length - 1];
   }
 }

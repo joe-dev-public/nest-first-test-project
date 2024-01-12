@@ -25,9 +25,7 @@ export class ReleasesController {
 
   @Post()
   createRelease(@Body() createReleaseDto: CreateReleaseDto) {
-    return {
-      name: createReleaseDto.name,
-    };
+    return this.releasesService.createRelease(createReleaseDto);
   }
 
   @Put(':id')

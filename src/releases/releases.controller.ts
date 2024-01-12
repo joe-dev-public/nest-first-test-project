@@ -16,10 +16,11 @@ export class ReleasesController {
   }
 
   @Get(':id')
+  // As above: URLs are strings. One tutorial keeps id type as "number" and
+  // coerces the URL string to a number (with +id, rather than Number(id)).
+  // Todo: research if there's a preferred way of handling this.
   getOneRelease(@Param('id') id: string) {
-    return {
-      id,
-    };
+    return this.releasesService.getRelease(id);
   }
 
   @Post()
@@ -31,6 +32,7 @@ export class ReleasesController {
 
   @Put(':id')
   updateRelease(
+    // Todo: might need to change this "number" to "string"...
     @Param('id') id: number,
     @Body() updateReleaseDto: UpdateReleaseDto,
   ) {

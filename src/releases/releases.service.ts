@@ -18,4 +18,15 @@ export class ReleasesService {
 
     return this.releases;
   }
+
+  getRelease(id: string) {
+    // As above, coerce stored number to string, to avoid mixing types.
+    const release = this.releases.find((release) => String(release.id) === id);
+
+    if (!release) {
+      throw new Error('release not found');
+    }
+
+    return release;
+  }
 }

@@ -51,10 +51,6 @@ export class ReleasesService {
   }
 
   updateRelease(id: string, updateReleaseDto: UpdateReleaseDto) {
-    if (!id) {
-      throw new Error('no id supplied');
-    }
-
     // This isn't really how to do validation, so as a temporary bodge,
     // throw an error unless name *and* year are supplied. (Realistically,
     // it would be fine if only one of the two were provided.)

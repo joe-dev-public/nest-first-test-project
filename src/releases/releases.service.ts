@@ -42,7 +42,7 @@ export class ReleasesService {
       throw new Error('no year supplied');
     }
 
-    const nextId: number = this.releases[this.releases.length - 1].id + 1;
+    const nextId: number = this.releases[this.releases.length - 1]?.id + 1 || 0;
 
     // Placeholder data store update ("volatile")
     this.releases.push({ id: nextId, ...createReleaseDto });

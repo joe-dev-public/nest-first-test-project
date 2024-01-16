@@ -30,13 +30,9 @@ export class ReleasesController {
 
   @Put(':id')
   updateRelease(
-    // Todo: might need to change this "number" to "string"...
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updateReleaseDto: UpdateReleaseDto,
   ) {
-    return {
-      id,
-      name: updateReleaseDto.name,
-    };
+    return this.releasesService.updateRelease(id, updateReleaseDto);
   }
 }

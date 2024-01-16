@@ -84,4 +84,20 @@ export class ReleasesService {
 
     return this.releases[index];
   }
+
+  deleteRelease(id: string) {
+    const index = this.releases.findIndex(
+      (release) => String(release.id) === id,
+    );
+
+    if (index === -1) {
+      throw new Error('invalid id');
+    }
+
+    const release = this.releases[index];
+
+    this.releases.splice(index, 1);
+
+    return release;
+  }
 }

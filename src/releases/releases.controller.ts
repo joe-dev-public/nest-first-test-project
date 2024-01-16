@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { CreateReleaseDto } from './dto/create-release.dto';
 import { UpdateReleaseDto } from './dto/update-release.dto';
 import { ReleasesService } from './releases.service';
@@ -34,5 +43,10 @@ export class ReleasesController {
     @Body() updateReleaseDto: UpdateReleaseDto,
   ) {
     return this.releasesService.updateRelease(id, updateReleaseDto);
+  }
+
+  @Delete(':id')
+  deleteRelease(@Param('id') id: string) {
+    return this.releasesService.deleteRelease(id);
   }
 }

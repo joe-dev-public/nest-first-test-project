@@ -1,4 +1,5 @@
 export class CreateReleaseDto {
-  name: string;
-  year: number;
+  artist: string;
+  title: string;
+  created_at: number;
 }

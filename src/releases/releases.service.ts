@@ -6,16 +6,24 @@ import { UpdateReleaseDto } from './dto/update-release.dto';
 export class ReleasesService {
   // Placeholder data store
   private releases = [
-    { id: 0, name: 'Left Leg Out / Blue Notez', year: 2006 },
-    { id: 1, name: 'Best Friend', year: 2002 },
+    {
+      id: 0,
+      artist: 'Mala',
+      title: 'Left Leg Out / Blue Notez',
+      created_at: 2006,
+    },
+    { id: 1, artist: 'Rhythm & Sound', title: 'Best Friend', created_at: 2002 },
+    { id: 2, artist: 'Unknown', title: 'Untitled', created_at: 2024 },
   ];
 
-  getReleases(year?: string) {
-    if (year) {
-      // Could just store the years as strings above, but I'd rather convert
+  getReleases(created_at?: string) {
+    if (created_at) {
+      // Could just store the created_at as strings above, but I'd rather convert
       // here so that the returned data feels more correct. (URL query
       // strings are always strings.)
-      return this.releases.filter((release) => String(release.year) === year);
+      return this.releases.filter(
+        (release) => String(release.created_at) === created_at,
+      );
     }
 
     return this.releases;
@@ -35,11 +43,11 @@ export class ReleasesService {
   // I think number type is OK here because JSON request body can actually
   // differentiate between a few types? More or less.
   createRelease(createReleaseDto: CreateReleaseDto) {
-    if (!createReleaseDto.name) {
-      throw new Error('no name supplied');
+    if (!createReleaseDto.title) {
+      throw new Error('no title supplied');
     }
-    if (!createReleaseDto.year) {
-      throw new Error('no year supplied');
+    if (!createReleaseDto.created_at) {
+      throw new Error('no created_at supplied');
     }
 
     const nextId: number = this.releases[this.releases.length - 1]?.id + 1 || 0;
@@ -52,13 +60,13 @@ export class ReleasesService {
 
   updateRelease(id: string, updateReleaseDto: UpdateReleaseDto) {
     // This isn't really how to do validation, so as a temporary bodge,
-    // throw an error unless name *and* year are supplied. (Realistically,
+    // throw an error unless title *and* created_at are supplied. (Realistically,
     // it would be fine if only one of the two were provided.)
-    if (!updateReleaseDto.name) {
-      throw new Error('no name supplied');
+    if (!updateReleaseDto.title) {
+      throw new Error('no title supplied');
     }
-    if (!updateReleaseDto.year) {
-      throw new Error('no year supplied');
+    if (!updateReleaseDto.created_at) {
+      throw new Error('no created_at supplied');
     }
 
     const index = this.releases.findIndex(
@@ -69,14 +77,17 @@ export class ReleasesService {
       throw new Error('invalid id');
     }
 
+    // Todo: try spreading the DTO into an object in the array as a neater
+    // way of doing an update?
+
     // Interesting, you get type errors here without a guard (above) against
     // undefined values.
-    this.releases[index].name = updateReleaseDto.name;
+    this.releases[index].title = updateReleaseDto.title;
     // I don't think the DTO does input type validation (nor coercion). I.e.
     // if you submit a string as part of the JSON, this will be updated to be
     // a string (and I don't think any part of TS could necessarily catch
     // that, as is?). Same applies to create, ofc.
-    this.releases[index].year = updateReleaseDto.year;
+    this.releases[index].created_at = updateReleaseDto.created_at;
 
     return this.releases[index];
   }

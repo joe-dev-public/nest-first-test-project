@@ -20,8 +20,8 @@ export class ReleasesController {
   @Get()
   // Note: HTTP URL query strings are always strings(!), so I'm not sure it
   // makes sense to use any type other than "string" here?
-  getReleases(@Query('year') year: string) {
-    return this.releasesService.getReleases(year);
+  getReleases(@Query('created_at') created_at: string) {
+    return this.releasesService.getReleases(created_at);
   }
 
   @Get(':id')

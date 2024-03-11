@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   Param,
   Post,
   Put,
@@ -29,7 +30,12 @@ export class ReleasesController {
   // coerces the URL string to a number (with +id, rather than Number(id)).
   // Todo: research if there's a preferred way of handling this.
   getOneRelease(@Param('id') id: string) {
-    return this.releasesService.getRelease(id);
+    // Typical to handle exceptions in the controller?
+    try {
+      return this.releasesService.getRelease(id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
   @Post()

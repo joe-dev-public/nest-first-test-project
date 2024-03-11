@@ -5,6 +5,7 @@ import {
   Get,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
@@ -28,8 +29,9 @@ export class ReleasesController {
   @Get(':id')
   // As above: URLs are strings. One tutorial keeps id type as "number" and
   // coerces the URL string to a number (with +id, rather than Number(id)).
-  // Todo: research if there's a preferred way of handling this.
-  getOneRelease(@Param('id') id: string) {
+  // It looks like "pipes" are probably the preferred way of handling this
+  // (https://docs.nestjs.com/pipes).
+  getOneRelease(@Param('id', ParseIntPipe) id: number) {
     // Typical to handle exceptions in the controller?
     try {
       return this.releasesService.getRelease(id);

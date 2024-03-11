@@ -29,9 +29,10 @@ export class ReleasesService {
     return this.releases;
   }
 
-  getRelease(id: string) {
-    // As above, coerce stored number to string, to avoid mixing types.
-    const release = this.releases.find((release) => String(release.id) === id);
+  getRelease(id: number) {
+    // No need to coerce stored number to string, as using ParseIntPipe in
+    // controller.
+    const release = this.releases.find((release) => release.id === id);
 
     if (!release) {
       throw new Error('release not found');

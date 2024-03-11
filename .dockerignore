@@ -1,0 +1,8 @@
+# This file might not affected bind mount (local) dev container, but could
+# be useful to have for deployment/prod?
+
+# .git
+# .gitignore
+# node_modules/
+# dist/
+# Makefile

@@ -1,4 +1,5 @@
-# Remember: after changing this file, you need to re-build your image :¬)
+# Remember: after changing this file, or things it depends on (like
+# package.json), you need to re-build your image :¬)
 
 # https://hub.docker.com/_/node
 FROM node:20

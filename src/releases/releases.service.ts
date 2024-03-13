@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { CreateReleaseDto } from './dto/create-release.dto';
 import { UpdateReleaseDto } from './dto/update-release.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Release } from './entities/release.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class ReleasesService {
@@ -16,29 +19,23 @@ export class ReleasesService {
     { id: 2, artist: 'Unknown', title: 'Untitled', created_at: 2024 },
   ];
 
-  getReleases(created_at?: string) {
-    if (created_at) {
-      // Could just store the created_at as strings above, but I'd rather convert
-      // here so that the returned data feels more correct. (URL query
-      // strings are always strings.)
-      return this.releases.filter(
-        (release) => String(release.created_at) === created_at,
-      );
-    }
+  // Just following this for now: https://docs.nestjs.com/techniques/database
 
-    return this.releases;
+  constructor(
+    @InjectRepository(Release)
+    private releasesRepository: Repository<Release>,
+  ) {}
+
+  // Use TypeORM instead of placeholder data store:
+  // (Not bothering with created_at param for now.)
+  getReleases(): Promise<Release[]> {
+    return this.releasesRepository.find();
   }
 
+  // Use TypeORM instead of placeholder data store:
   getRelease(id: number) {
-    // No need to coerce stored number to string, as using ParseIntPipe in
-    // controller.
-    const release = this.releases.find((release) => release.id === id);
-
-    if (!release) {
-      throw new Error('release not found');
-    }
-
-    return release;
+    // Not sure how to handle the exception this raises, yet:
+    return this.releasesRepository.findOneOrFail({ where: { id } });
   }
 
   // I think number type is OK here because JSON request body can actually

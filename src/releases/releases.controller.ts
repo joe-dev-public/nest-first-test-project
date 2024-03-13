@@ -22,8 +22,9 @@ export class ReleasesController {
   @Get()
   // Note: HTTP URL query strings are always strings(!), so I'm not sure it
   // makes sense to use any type other than "string" here?
-  getReleases(@Query('created_at') created_at: string) {
-    return this.releasesService.getReleases(created_at);
+  // Temporarily ignore created_at query param:
+  getReleases() {
+    return this.releasesService.getReleases();
   }
 
   @Get(':id')
@@ -32,7 +33,9 @@ export class ReleasesController {
   // It looks like "pipes" are probably the preferred way of handling this
   // (https://docs.nestjs.com/pipes).
   getOneRelease(@Param('id', ParseIntPipe) id: number) {
-    // Typical to handle exceptions in the controller?
+    // Typical to handle exceptions in the controller? But if findOneOrFail
+    // throws an EntityNotFoundError, this doesn't seem to be the way to
+    // catch it... (todo: find out how!)
     try {
       return this.releasesService.getRelease(id);
     } catch (error) {

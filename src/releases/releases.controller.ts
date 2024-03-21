@@ -43,7 +43,8 @@ export class ReleasesController {
 
   @Post()
   createRelease(
-    @Body(new ValidationPipe()) createReleaseDto: CreateReleaseDto,
+    @Body(new ValidationPipe({ skipMissingProperties: true }))
+    createReleaseDto: CreateReleaseDto,
   ) {
     return this.releasesService.createRelease(createReleaseDto);
   }

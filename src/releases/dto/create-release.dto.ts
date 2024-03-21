@@ -1,4 +1,4 @@
-import { MinLength } from 'class-validator';
+import { IsEnum, MinLength } from 'class-validator';
 
 export class CreateReleaseDto {
   artist: string;
@@ -8,4 +8,8 @@ export class CreateReleaseDto {
   title: string;
 
   created_at: number;
+
+  // Todo: is this kind of duplication really required?(!)
+  @IsEnum(['cd', 'digital', 'vinyl'])
+  media: 'cd' | 'digital' | 'vinyl';
 }

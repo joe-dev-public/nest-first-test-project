@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   Query,
+  ValidationPipe,
 } from '@nestjs/common';
 import { CreateReleaseDto } from './dto/create-release.dto';
 import { UpdateReleaseDto } from './dto/update-release.dto';
@@ -41,7 +42,9 @@ export class ReleasesController {
   }
 
   @Post()
-  createRelease(@Body() createReleaseDto: CreateReleaseDto) {
+  createRelease(
+    @Body(new ValidationPipe()) createReleaseDto: CreateReleaseDto,
+  ) {
     return this.releasesService.createRelease(createReleaseDto);
   }
 

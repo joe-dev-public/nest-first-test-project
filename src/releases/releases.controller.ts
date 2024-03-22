@@ -9,11 +9,13 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateReleaseDto } from './dto/create-release.dto';
 import { UpdateReleaseDto } from './dto/update-release.dto';
 import { ReleasesService } from './releases.service';
+import { HelloWorldGuard } from 'src/hello-world/hello-world.guard';
 
 @Controller('releases')
 export class ReleasesController {
@@ -21,6 +23,7 @@ export class ReleasesController {
   constructor(private readonly releasesService: ReleasesService) {}
 
   @Get()
+  @UseGuards(HelloWorldGuard)
   // Note: HTTP URL query strings are always strings(!), so I'm not sure it
   // makes sense to use any type other than "string" here?
   getReleases(@Query('created_at') created_at: string) {
